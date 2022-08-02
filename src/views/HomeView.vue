@@ -1,5 +1,5 @@
 <template>
-        <div class="form-box">
+        <div class="form-box" v-if="isVisibility">
                 <form @submit.prevent = "validation">
                     <div class="text-left">
                         <label for="title" class="form-group">Name</label>
@@ -30,58 +30,67 @@
                     </button>
                 </form>
         </div>
+        <div v-if="isVisibility === false" v-for="(student, index) in students" :key="index" >
+            <StudentView :student="student" />
+        </div>
 </template>
 
 <script>
 import { reactive, ref } from '@vue/reactivity'
+import StudentView from './StudentView.vue'
 export default {
-    name:"create",
-    setup(){
-        const name = ref("")
-        const uni = ref("")
-        const age = ref(null)
-        const nameError = ref("")
-        const uniError = ref("")
-        const ageError = ref("")
-        let students = ref([])
-        const isVisibility = ref(true)
+    name: "create",
+    components: {
+        StudentView
+    },
+    setup() {
+        const name = ref("");
+        const uni = ref("");
+        const age = ref(null);
+        const nameError = ref("");
+        const uniError = ref("");
+        const ageError = ref("");
+        let students = ref([]);
+        const isVisibility = ref(true);
         //console.log(students.value)
         const loading = ref(false);
-
-        function validation(){
-            if (name.value === ""){
-                nameError.value="name is required" 
-            }else{
-                nameError.value=""
+        function validation() {
+            if (name.value === "") {
+                nameError.value = "name is required";
             }
-             if (uni.value === ""){
-                uniError.value="uni is required"
-            }else{
-                uniError.value=""
+            else {
+                nameError.value = "";
             }
-            if (age.value === null){
-                ageError.value="age is required"
-            }else{
-                ageError.value=""
+            if (uni.value === "") {
+                uniError.value = "uni is required";
             }
-            if (name.value !== "" && uni.value !== "" && age.value !== null){
-                isVisibility.value = false
+            else {
+                uniError.value = "";
+            }
+            if (age.value === null) {
+                ageError.value = "age is required";
+            }
+            else {
+                ageError.value = "";
+            }
+            if (name.value !== "" && uni.value !== "" && age.value !== null) {
+                isVisibility.value = false;
                 loading.value = true;
                 createStudent();
             }
         }
-        function createStudent(){
+        function createStudent() {
             let student = {
-              name : name.value,
-              uni : uni.value,
-              age : age.value,
-            }
+                name: name.value,
+                uni: uni.value,
+                age: age.value,
+            };
             students.value.push(student);
-            console.log(students.value)
+            console.log(students.value);
         }
-        
-        return {name,uni,age,nameError,uniError,ageError,students,loading,isVisibility,validation };
-    }
+        return { name, uni, age, nameError, uniError, ageError, students, loading, isVisibility, validation };
+    },
+    components: { StudentView }
 }
 </script>
 

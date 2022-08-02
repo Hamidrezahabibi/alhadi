@@ -1,16 +1,33 @@
 <template>
-    <div class="card" style="width: 18rem;">
+    <div class="card-student card" style="width: 18rem;">
         <div class="card-header">
-            Featured
+            Student
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">Cras justo odio</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Vestibulum at eros</li>
+            <li class="list-group-item">{{student.name}}</li>
+            <li class="list-group-item">{{student.uni}}</li>
+            <li class="list-group-item">{{student.age}}</li>
         </ul>
     </div>
 </template>
 
 <script>
-
+export default {
+    props: {
+        student:{
+            type: Object,
+            required: true
+        }
+    },
+    setup(props){
+        console.log(props.student)
+    }
+}
 </script>
+
+<style>
+.card-student {
+    margin-left: 500px;
+}
+</style>
+
